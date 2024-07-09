@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GetSponcered - Home</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: #fff;
+        }
+        .container {
+            text-align: center;
+            margin-top: 10%;
+        }
+        .btn-custom {
+            background-color: #ff416c;
+            border: none;
+            color: #fff;
+        }
+        .btn-custom:hover {
+            background-color: #ff4b2b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="display-4">Welcome to GetSponcered</h1>
+        <p class="lead">Connect with top sponsors and influencers effortlessly.</p>
+        <div class="mt-4">
+            <a href="{{ url_for('userlogin') }}" class="btn btn-custom btn-lg mr-2">User Login</a>
+            <a href="{{ url_for('adminlogin') }}" class="btn btn-custom btn-lg mr-2">Admin Login</a>
+            <a href="{{ url_for('signup') }}" class="btn btn-secondary btn-lg">Signup</a>
+        </div>
+    </div>
+</body>
+</html>
