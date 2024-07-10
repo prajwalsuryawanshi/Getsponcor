@@ -33,7 +33,9 @@ def admindashboard():
 def influencerdashboard():
     return render_template("/influencer/influencer-dashboard.html")
 
-
+@app.route("/search")
+def search():
+    return render_template("/admin/search.html")
 
 if __name__ == '__main__':
     app.run(debug=True)

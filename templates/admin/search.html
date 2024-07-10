@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin's Dashboard - Search</title>
+    
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+    
+    .navbar {
+        background-color: #f0f0f0;
+        padding: 10px;
+        display: flex;
+        justify-content: space-around;
+    }
+    
+    .nav-link {
+        text-decoration: none;
+        color: #000;
+        padding: 5px 10px;
+        border: 1px solid #000;
+        border-radius: 5px;
+    }
+    
+    .dashboard {
+        padding: 20px;
+    }
+    
+    h1, h2 {
+        font-size: 24px;
+    }
+    
+    .campaign, .flagged-item, .result-item {
+        display: flex;
+        justify-content: space-between;
+        margin: 10px 0;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    
+    .view-btn, .remove-btn, .flag-btn, .filter-btn {
+        padding: 5px 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    
+    .view-btn {
+        background-color: yellow;
+    }
+    
+    .remove-btn {
+        background-color: red;
+        color: white;
+    }
+    
+    .flag-btn {
+        background-color: pink;
+    }
+    
+    .filter-btn {
+        background-color: lightgray;
+    }
+    
+    #search-box {
+        padding: 5px;
+        margin-right: 10px;
+    }
+    
+    .search-section {
+        margin-top: 20px;
+    }
+    
+</style>
+<body>
+    <div class="navbar">
+        <a href="index.html" class="nav-link">Info</a>
+        <a href="search.html" class="nav-link">Find</a>
+        <a href="#" class="nav-link">Stats</a>
+        <a href="#" class="nav-link">Logout</a>
+    </div>
+
+    <div class="dashboard">
+        <section class="search-section">
+            <input type="text" id="search-box" placeholder="Search">
+            <button class="filter-btn">Filter</button>
+            <div class="search-results">
+                <div class="result-item">
+                    <span>Sponsor Name | Details</span>
+                    <button class="view-btn">View</button>
+                    <button class="flag-btn">Flag</button>
+                </div>
+                <div class="result-item">
+                    <span>Campaign Name | Details</span>
+                    <button class="view-btn">View</button>
+                    <button class="flag-btn">Flag</button>
+                </div>
+                <div class="result-item">
+                    <span>Inf. Name | Details</span>
+                    <button class="view-btn">View</button>
+                    <button class="flag-btn">Flag</button>
+                </div>
+                <div class="result-item">
+                    <span>Inf. Name | Details</span>
+                    <button class="view-btn">View</button>
+                    <button class="flag-btn">Flag</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const viewButtons = document.querySelectorAll('.view-btn');
+            const removeButtons = document.querySelectorAll('.remove-btn');
+            const flagButtons = document.querySelectorAll('.flag-btn');
+            const filterButton = document.querySelector('.filter-btn');
+        
+            viewButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    console.log('View button clicked');
+                });
+            });
+        
+            removeButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    console.log('Remove button clicked');
+                });
+            });
+        
+            flagButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    console.log('Flag button clicked');
+                });
+            });
+        
+            filterButton.addEventListener('click', () => {
+                console.log('Filter button clicked');
+            });
+        });
+        
+    </script>
+</body>
+</html>
