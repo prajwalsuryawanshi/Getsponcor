@@ -33,6 +33,20 @@ def admindashboard():
 def influencerdashboard():
     return render_template("/influencer/influencer-dashboard.html")
 
+@app.route("/influencer-register")
+def influencer_register():
+    return render_template("/influencer/influencer-register.html")
+
+@app.route("/influencer-search")
+def find():
+    return render_template("/influencer/find.html")
+
+@app.route("/sponsor-register")
+def sponsor_register():
+    return render_template("/sponsor/sponsor-register.html")
+
+
+
 @app.route("/search")
 def search():
     return render_template("/admin/search.html")

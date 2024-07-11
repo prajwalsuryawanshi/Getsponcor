@@ -3,94 +3,150 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Influencer Dashboard - GetSponsored</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <title>Influencer's Dashboard</title>
     <style>
         body {
-            background: #eef2f3;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
         }
-        .dashboard-container {
-            margin-top: 50px;
+        .header {
+            background-color: #fff;
+            padding: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        .card {
-            margin-bottom: 20px;
-            border: none;
+        .header a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: #000;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        .header a.active {
+            background-color: #b3e5fc;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+        .sidebar {
+            background-color: #e0ffe0;
+            padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 200px;
+            margin-right: 20px;
+            text-align: center;
         }
-        .navbar {
-            margin-bottom: 30px;
-            background: linear-gradient(45deg, #6a11cb, #2575fc);
+        .sidebar img {
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            margin-bottom: 10px;
         }
-        .navbar-brand, .nav-link {
-            color: white !important;
+        .content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 600px;
         }
-        .btn-custom {
-            background-color: #ff416c;
+        .content h2 {
+            margin-top: 0;
+        }
+        .campaign {
+            background-color: #f8f8f8;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .campaign button {
+            padding: 5px 10px;
             border: none;
-            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
         }
-        .btn-custom:hover {
-            background-color: #ff4b2b;
+        .campaign .view-btn {
+            background-color: #ffeb3b;
         }
-        .card-title {
-            color: #333;
+        .campaign .accept-btn {
+            background-color: #c8e6c9;
+        }
+        .campaign .reject-btn {
+            background-color: #ffccbc;
         }
     </style>
+    <!--<script>
+        function showContent(contentId) {
+            const contents = document.querySelectorAll('.content');
+            contents.forEach(content => {
+                content.style.display = 'none';
+            });
+            document.getElementById(contentId).style.display = 'block';
+
+            const links = document.querySelectorAll('.header a');
+            links.forEach(link => {
+                link.classList.remove('active');
+            });
+            document.querySelector(`[data-content="${contentId}"]`).classList.add('active');
+        }
+    </script>-->
 </head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-light">
-        <a class="navbar-brand" href="#">GetSponsored</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Dashboard <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Profile</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Settings</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Logout</a>
-                </li>
-            </ul>
+<body onload="showContent('profile')">
+    <div class="header">
+        <div>Influencer's Dashboard</div>
+        <div>
+            <a href="#" data-content="profile" class="active" onclick="showContent('profile')">Profile</a>
+            <a href="{{ url_for('find') }}" data-content="find" onclick="showContent('find')">Find</a>
+            <a href="#">Stats</a>
+            <a href="#">Logout</a>
         </div>
-    </nav>
-    <div class="container dashboard-container">
-        <h1 class="text-center">Influencer Dashboard</h1>
-        <div class="row mt-4">
-            <div class="col-md-4">
-                <div class="card bg-info text-white">
-                    <div class="card-body">
-                        <h5 class="card-title text-white">Manage Campaigns</h5>
-                        <p class="card-text">Create and manage your influencer campaigns.</p>
-                        <a href="#" class="btn btn-custom btn-block">Go to Campaigns</a>
-                    </div>
-                </div>
+    </div>
+    <div class="container">
+        <div class="sidebar">
+            <div class="profile-pic">
+                <img src="profile_pic_placeholder.png" alt="Profile Pic">
             </div>
-            <div class="col-md-4">
-                <div class="card bg-danger text-white">
-                    <div class="card-body">
-                        <h5 class="card-title text-white">View Sponsorship Offers</h5>
-                        <p class="card-text">Browse sponsorship offers from various sponsors.</p>
-                        <a href="#" class="btn btn-custom btn-block">View Offers</a>
-                    </div>
-                </div>
+            <div>rating 5</div>
+            <div>earnings this month $500</div>
+        </div>
+        <div id="profile" class="content">
+            <h2>Welcome User_01</h2>
+            <h3>Active Campaigns:</h3>
+            <div class="campaign">
+                <div>Campaign 01 | Progress: 10%</div>
+                <button class="view-btn">view</button>
             </div>
-            <div class="col-md-4">
-                <div class="card bg-secondary text-white">
-                    <div class="card-body">
-                        <h5 class="card-title text-white">Settings</h5>
-                        <p class="card-text">Manage your account settings and preferences.</p>
-                        <a href="#" class="btn btn-custom btn-block">Account Settings</a>
-                    </div>
-                </div>
+            <div class="campaign">
+                <div>Campaign 02 | Progress: 40%</div>
+                <button class="view-btn">view</button>
             </div>
+            <h3>New Requests:</h3>
+            <div class="campaign">
+                <div>Campaign 04 | Company 01</div>
+                <button class="view-btn">view</button>
+                <button class="accept-btn">accept</button>
+                <button class="reject-btn">reject</button>
+            </div>
+            <div class="campaign">
+                <div>Campaign 05 | Company 02</div>
+                <button class="view-btn">view</button>
+                <button class="accept-btn">accept</button>
+                <button class="reject-btn">reject</button>
+            </div>
+        </div>
+        <div id="find" class="content" style="display: none;">
+            <h2>Find Campaigns</h2>
+            <p>Here you can find new campaigns to join.</p>
+            <!-- Add more content as needed -->
         </div>
     </div>
 </body>
