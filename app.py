@@ -2,9 +2,10 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 from flask_sqlalchemy import SQLAlchemy
 import bcrypt
 from datetime import datetime
+import os
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join('/tmp', 'database.db')}"
 db = SQLAlchemy(app)
 app.secret_key = 'secret_key'
 
@@ -91,6 +92,12 @@ class Request(db.Model):
 
 with app.app_context():
     db.create_all()
+
+# Create database if it doesn't exist
+if not os.path.exists(os.path.join('/tmp', 'database.db')):
+    with app.app_context():
+        db.create_all()
+
 
 @app.route("/")
 def home():
