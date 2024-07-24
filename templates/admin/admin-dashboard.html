@@ -4,145 +4,246 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin's Dashboard</title>
-   
-</head>
-<style>
-    body {
-        font-family: Arial, sans-serif;
-    }
-    
-    .navbar {
-        background-color: #f0f0f0;
-        padding: 10px;
-        display: flex;
-        justify-content: space-around;
-    }
-    
-    .nav-link {
-        text-decoration: none;
-        color: #000;
-        padding: 5px 10px;
-        border: 1px solid #000;
-        border-radius: 5px;
-    }
-    
-    .dashboard {
-        padding: 20px;
-    }
-    
-    h1, h2 {
-        font-size: 24px;
-    }
-    
-    .campaign, .flagged-item, .result-item {
-        display: flex;
-        justify-content: space-between;
-        margin: 10px 0;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-    }
-    
-    .view-btn, .remove-btn, .flag-btn, .filter-btn {
-        padding: 5px 10px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-    
-    .view-btn {
-        background-color: yellow;
-    }
-    
-    .remove-btn {
-        background-color: red;
-        color: white;
-    }
-    
-    .flag-btn {
-        background-color: pink;
-    }
-    
-    .filter-btn {
-        background-color: lightgray;
-    }
-    
-    #search-box {
-        padding: 5px;
-        margin-right: 10px;
-    }
-    
-    .search-section {
-        margin-top: 20px;
-    }
-    
-</style>
-<body>
-    <div class="navbar">
-        <a href="#" class="nav-link">Info</a>
-        <a href="{{ url_for('search') }}" class="nav-link">Find</a>
-        <a href="#" class="nav-link">Stats</a>
-        <a href="#" class="nav-link">Logout</a>
-    </div>
-
-    <div class="dashboard">
-        <h1>Welcome Admin</h1>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
         
-        <section class="ongoing-campaigns">
-            <h2>Ongoing Campaigns:</h2>
-            <div class="campaign">
-                <span>Campaign 01 | Progress 10%</span>
-                <button class="view-btn">View</button>
-            </div>
-            <div class="campaign">
-                <span>Campaign 02 | Progress 40%</span>
-                <button class="view-btn">View</button>
-            </div>
-        </section>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        .header {
+            background: linear-gradient(90deg, #6200ea, #2196f3);
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .header div {
+            font-size: 1.8em;
+            font-weight: bold;
+        }
+        .header a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            font-weight: 500;
+        }
+        .header a:hover,
+        .header a.active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px;
+            flex-wrap: wrap;
+        }
+        .sidebar {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+            margin-right: 30px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .sidebar img {
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            margin-bottom: 20px;
+        }
+        .sidebar div {
+            margin: 10px 0;
+            font-size: 1.2em;
+            font-weight: 500;
+        }
+        .content {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+        }
+        .content h2 {
+            margin-top: 0;
+            font-size: 2.5em;
+            font-weight: 700;
+        }
+        .campaign {
+            background-color: #fafafa;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+        .campaign:hover {
+            background-color: #f5f5f5;
+            transform: translateY(-5px);
+        }
+        .campaign button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+            margin-left: 10px;
+            font-weight: 500;
+        }
+        .campaign .view-btn {
+            background: linear-gradient(90deg, #6200ea, #2196f3);
+            color: #fff;
+        }
+        .campaign .view-btn:hover {
+            background: linear-gradient(90deg, #5a00d6, #1e88e5);
+        }
+        .campaign .accept-btn {
+            background: linear-gradient(90deg, #4caf50, #388e3c);
+            color: #fff;
+        }
+        .campaign .accept-btn:hover {
+            background: linear-gradient(90deg, #43a047, #388e3c);
+        }
+        .campaign .reject-btn {
+            background: linear-gradient(90deg, #f44336, #d32f2f);
+            color: #fff;
+        }
+        .campaign .reject-btn:hover {
+            background: linear-gradient(90deg, #e53935, #c62828);
+        }
+        /* Modal Styles */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1; 
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto; 
+            background-color: rgb(0,0,0); 
+            background-color: rgba(0,0,0,0.4); 
+            padding-top: 60px;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            border-radius: 10px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        function showContent(contentId) {
+            const contents = document.querySelectorAll('.content');
+            contents.forEach(content => {
+                content.style.display = 'none';
+            });
+            document.getElementById(contentId).style.display = 'block';
 
-        <section class="flagged-users">
-            <h2>Flagged Users/Campaigns:</h2>
-            <div class="flagged-item">
-                <span>Campaign 04 | Company 01</span>
-                <button class="view-btn">View</button>
-                <button class="remove-btn">Remove</button>
+            const links = document.querySelectorAll('.header a');
+            links.forEach(link => {
+                link.classList.remove('active');
+            });
+            document.querySelector(`[data-content="${contentId}"]`).classList.add('active');
+        }
+
+        function openModal(campaignInfo) {
+            document.getElementById('modal-content-text').innerText = campaignInfo;
+            document.getElementById('myModal').style.display = "block";
+        }
+
+        function closeModal() {
+            document.getElementById('myModal').style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('myModal');
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+</head>
+<body onload="showContent('profile')">
+    <div class="header">
+        <div>Influencer's Dashboard</div>
+        <div>
+            <a href="#" data-content="profile" class="active" onclick="showContent('profile')">Profile</a>
+            <a href="#" data-content="find" onclick="showContent('find')">Find</a>
+            <a href="#">Stats</a>
+            <a href="/admin-logout">Logout</a>
+        </div>
+    </div>
+    <div class="container">
+        <div id="profile" class="content">
+            <h2>Welcome, {{user.uname}}</h2>
+            <div>Rating: 5</div>
+            <div>Earnings this month: $500</div>
+            <h3>Active Campaigns:</h3>
+            <div class="campaign">
+                <div>Campaign 01 | Progress: 10%</div>
+                <button class="view-btn" onclick="openModal('Campaign 01 | Progress: 10%')">View</button>
             </div>
-            <div class="flagged-item">
-                <span>Campaign 05 | Company 01</span>
-                <button class="view-btn">View</button>
-                <button class="remove-btn">Remove</button>
+            <div class="campaign">
+                <div>Campaign 02 | Progress: 40%</div>
+                <button class="view-btn" onclick="openModal('Campaign 02 | Progress: 40%')">View</button>
             </div>
-        </section>
+            <h3>New Requests:</h3>
+            <div class="campaign">
+                <div>Campaign 04 | Company 01</div>
+                <button class="view-btn" onclick="openModal('Campaign 04 | Company 01')">View</button>
+                <button class="accept-btn">Accept</button>
+                <button class="reject-btn">Reject</button>
+            </div>
+            <div class="campaign">
+                <div>Campaign 05 | Company 02</div>
+                <button class="view-btn" onclick="openModal('Campaign 05 | Company 02')">View</button>
+                <button class="accept-btn">Accept</button>
+                <button class="reject-btn">Reject</button>
+            </div>
+        </div>
+        <div id="find" class="content" style="display: none;">
+            <h2>Find Campaigns</h2>
+            <p>Here you can find new campaigns to join.</p>
+            <!-- Add more content as needed -->
+        </div>
     </div>
 
-    <script >document.addEventListener('DOMContentLoaded', () => {
-        const viewButtons = document.querySelectorAll('.view-btn');
-        const removeButtons = document.querySelectorAll('.remove-btn');
-        const flagButtons = document.querySelectorAll('.flag-btn');
-        const filterButton = document.querySelector('.filter-btn');
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <p id="modal-content-text"></p>
     
-        viewButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                console.log('View button clicked');
-            });
-        });
-    
-        removeButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                console.log('Remove button clicked');
-            });
-        });
-    
-        flagButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                console.log('Flag button clicked');
-            });
-        });
-    
-        filterButton.addEventListener('click', () => {
-            console.log('Filter button clicked');
-        });
-    });
-    </script>
+        </div>
+    </div>
 </body>
 </html>

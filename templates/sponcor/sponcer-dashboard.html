@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Influencer's Dashboard</title>
+    <title>Sponcer's Dashboard</title>
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
 
@@ -266,15 +266,18 @@
   </head>
   <body onload="showContent('profile')">
     <div class="header">
-      <div>Influencer's Dashboard</div>
+      <div>Sponcer's Dashboard</div>
       <div>
         <a
           href="#"
           data-content="profile"
           class="active"
           onclick="showContent('profile')"
-          >Profile</a>
-
+          >Profile</a
+        >
+        <a href="#" data-content="campaigns" onclick="showContent('campaigns')"
+          >Campaign</a
+        >
         <a href="#" data-content="find" onclick="showContent('find')">Find</a>
         <a href="#">Stats</a>
         <a href="/user-logout">Logout</a>
@@ -283,27 +286,24 @@
     <div class="container">
       <div id="profile" class="content">
         <h2>Welcome, {{user.uname}}</h2>
-        <div>Rating: 5</div>
-        <div>Earnings this month: $500</div>
         <h3>Active Campaigns:</h3>
+    {% for campaign in campaigns %}
         <div class="campaign">
-          <div>Campaign 01 | Progress: 10%</div>
+          <div>Campagin Title : {{ campaign.title }}  
+             {% if today > campaign.start_date %} 
+             <p>   Completed  : {{  ( today - campaign.start_date)/(campaign.end_date - campaign.start_date)*100 }}% </p>
+             {% else %}
+             <p>Yet to start</p>
+             {% endif %}
+            </div>
           <button
             class="view-btn"
-            onclick="openModal('Campaign 01 | Progress: 10%')"
+            onclick="openModal('Description : {{campaign.description }}     |     Created on: {{ campaign.created_on }}     |     Start date : {{campaign.start_date}}     |     End Date : {{campaign.end_date }}  |  Budget : {{campaign.budget }}K ')"
           >
-            View
+            View Details
           </button>
-        </div>
-        <div class="campaign">
-          <div>Campaign 02 | Progress: 40%</div>
-          <button
-            class="view-btn"
-            onclick="openModal('Campaign 02 | Progress: 40%')"
-          >
-            View
-          </button>
-        </div>
+          </div>
+    {% endfor %}
         <h3>New Requests:</h3>
         <div class="campaign">
           <div>Campaign 04 | Company 01</div>
@@ -329,23 +329,54 @@
         </div>
       </div>
       <div id="find" class="content" style="display: none">
-        <h2>Find Campaigns</h2>
-        <p>Here you can find new campaigns to join.</p>
-        {% for campaign in campaigns %}
+        <h2>Find Influencers</h2>
+    {% for influencer in influcencers %}
+        <div class="campaign">
+          <div>Influencer Username : {{influencer.uname }}</div>
+          <button
+            class="view-btn"
+            onclick="openModal('Influencer Niche : {{ influencer.niche }}    |   Influencer   Platform : {{ influencer.platform }} | Influencer Reach : {{ influencer.reach }}K ')"
+          >
+            View Details 
+          </button>
+          </div>  
+    {% endfor %}
+      </div>
+      <div id="campaigns" class="content" style="display: none">
+        <div style="justify-content: flex-end ;">
+        <h2>Your Campaigns</h2>
+          <button 
+          style="font-size: 60px;
+          background: linear-gradient(90deg, #6200ea, #2196f3);
+          color:white;
+          border-radius:50%;
+          margin-left:50%;
+          height: 50px;
+          
+          "onclick="openAddModal()">
+          +
+          </button>
+        </div>
+    {% for campaign in campaigns %}
         <div class="campaign">
           <div>Campagin Title : {{ campaign.title }}  
-            </div>
+            {% if today > campaign.start_date %} 
+            <p>   Completed  : {{ ( today - campaign.start_date)/(campaign.end_date - campaign.start_date)*100}}% </p>
+            {% else %}
+            <p>Yet to start</p>
+            {% endif %}</div>
           <button
             class="view-btn"
             onclick="openModal('Description : {{campaign.description }}     |     Created on: {{ campaign.created_on }}     |     Start date : {{campaign.start_date}}     |     End Date : {{campaign.end_date }}  |  Budget : {{campaign.budget }}K ')"
           >
             View Details
           </button>
-          <form method="POST" action="{{ url_for('send_request', campaign_id=campaign.id) }}">
-            <button type="submit">Send Request</button>
-        </form>
+          <form method="POST" action="{{ url_for('delete_campaign', campaign_id=campaign.id) }}">
+            <button type="submit" style="background-color: #d32f2f;">Delete</button>
+          </form>
           </div>
-        {% endfor %}
+    {% endfor %}
+ 
         <!-- Add more content as needed -->
       </div>
 
@@ -356,6 +387,58 @@
       <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
         <p id="modal-content-text"></p>
+      </div>
+    </div>
+
+    <!-- Additional Modal for + Button -->
+    <div id="addModal" class="modal modal-add">
+      <div style="height:130%; background: linear-gradient(90deg, #6200ea, #2196f3); margin-bottom:30%; padding-top:50px; color:white;" class="modal-content">
+        <span class="close" onclick="closeAddModal()">&times;</span>
+        <form action="/sponcer-dashboard" method="POST">
+          <label for="title"  >Title:</label>
+          <input type="text" id="title" name="title" required/>
+
+          <label for="description">Description:</label>
+          <input
+            type="text"
+            id="description"
+            name="description"
+            required
+          />
+
+          <label for="start_date">start date:</label>
+          <input type="date" id="start_date" name="start_date" required/>
+
+          <label for="end_date">End Date:</label>
+          <input type="date" id="end_date" name="end_date" required/>
+
+          <label for="Niche">Niche:</label>
+          <select class="form-control" id="Niche" name="niche" style="height: 40px; ">
+              <option value="Fashion">Fashion </option>
+              <option value="Beauty">Beauty </option>
+              <option value="Fitness">Fitness </option>
+              <option value="Food">Food </option>   
+              <option value="Travel">Travel </option>
+              <option value="Tech">Tech </option>
+              <option value="Lifestyle">Lifestyle </option>
+              <option value="Finance">Finance </option>
+              <option value="Education">Education </option>
+              <option value="Pet">Pet </option>
+          </select>
+
+          <label for="budget">Budget:</label>
+          <input type="number" id="budget" name="budget" style="height: 40px;" required />
+
+          <div style="display: flex; justify-content: space-between">
+            <input
+              type="button"
+              class="cancel-btn"
+              value="Cancel"
+              onclick="closeAddModal()"
+            />
+            <input type="submit" class="add-btn" value="Add"/>
+          </div>
+        </form>
       </div>
     </div>
   </body>

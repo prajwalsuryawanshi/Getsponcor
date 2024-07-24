@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup - GetSponcered</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .signup-container {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .signup-container h2 {
+            margin-bottom: 1.5rem;
+        }
+        .btn-custom {
+            background-color: #ff416c;
+            border: none;
+            color: #fff;
+        }
+        .btn-custom:hover {
+            background-color: #ff4b2b;
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-container">
+        <h2 class="text-center">Signup for GetSponcered</h2>
+        <form action="/sponcer-signup" method="POST" >
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" id="username" name="uname" placeholder="Enter username" required>
+                <p style="color: #ff416c;"><b>{{error }}</b></p>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" name="passwd" placeholder="Password" required>
+            </div>
+            <div class="form-group">
+                <label for="Industry">Industry</label>
+                <select class="form-control" id="Industry" name="industry" required>
+                    <option value="Automotive">Automotive Industry</option>
+                    <option value="Technology">Technology Industry</option>
+                    <option value="Fashion">Fashion and Apparel Industry</option>
+                    <option value="Food">Food and Beverage Industry</option>
+                    <option value="Healthcare">Healthcare and Wellness Industry</option>
+                    <option value="Travel">Travel and Hospitality Industry</option>
+                    <option value="Entertainment">Entertainment Industry</option>
+                    <option value="Finance">Financial Services Industry</option>
+                    <option value="Sports">Sports Industry</option>
+                    <option value="Education">Education and Training Industry</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-custom btn-block">Signup</button>
+        </form>
+        <div class="text-center mt-3">
+            <a href="{{ url_for('userlogin') }}" class="text-white">Already have an account? Login</a>
+        </div>
+    </div>
+</body>
+</html>

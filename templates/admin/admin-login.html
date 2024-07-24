@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - GetSponsored</title>
+    <title>Login - GetSponcered</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -35,22 +35,20 @@
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <h2 class="text-center">Login to GetSponsored</h2>
-        <form>
+    <div class="login-container">   
+        <h2 class="text-center">Login to GetSponcered</h2>
+        <form action="/admin-login" method="POST">
+            <p style="color: #ff416c;"><b>{{error }}</b></p>
             <div class="form-group">
-                <label for="email">Email address</label>
-                <input type="email" class="form-control" id="email" placeholder="Enter email">
+                <label for="email">Username</label>
+                <input type="text" class="form-control" id="uname" placeholder="Enter Username" name="uname">
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" class="form-control" id="password" placeholder="Password">
+                <input type="password" class="form-control" id="password" placeholder="Password" name="passwd">
             </div>
             <button type="submit" class="btn btn-custom btn-block">Login</button>
         </form>
-        <div class="text-center mt-3">
-            <a href="{{ url_for('signup') }}" class="text-white">Don't have an account? Signup</a>
-        </div>
     </div>
 </body>
 </html>
