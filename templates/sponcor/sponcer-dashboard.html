@@ -288,6 +288,7 @@
         <h2>Welcome, {{user.uname}}</h2>
         <h3>Active Campaigns:</h3>
     {% for campaign in campaigns %}
+
         <div class="campaign">
           <div>Campagin Title : {{ campaign.title }}  
              {% if today > campaign.start_date %} 
@@ -303,30 +304,32 @@
             View Details
           </button>
           </div>
+
     {% endfor %}
         <h3>New Requests:</h3>
+        <p>for campaign id refer to description of campaign in campaign page</p>
+        {% for reqest in reqests %}
         <div class="campaign">
-          <div>Campaign 04 | Company 01</div>
+          <div>Campaign id : {{reqest.campaign_id}} </div>
           <button
             class="view-btn"
             onclick="openModal('Campaign 04 | Company 01')"
           >
             View
           </button>
-          <button class="accept-btn">Accept</button>
-          <button class="reject-btn">Reject</button>
+
+            {% if reqest.status == 'pending' %}
+            <form method="POST" action="{{ url_for('accept_req', reqest_id=reqest.id) }}">
+              <button type="submit" class="accept-btn">Accept</button>
+              </form>
+              <form method="POST" action="{{ url_for('reject_req', reqest_id=reqest.id) }}">
+                <button type="submit" class="reject-btn">Reject</button>
+                </form>
+            {% else %}
+                <p>{{reqest.status}}</p>
+            {% endif %}
         </div>
-        <div class="campaign">
-          <div>Campaign 05 | Company 02</div>
-          <button
-            class="view-btn"
-            onclick="openModal('Campaign 05 | Company 02')"
-          >
-            View
-          </button>
-          <button class="accept-btn">Accept</button>
-          <button class="reject-btn">Reject</button>
-        </div>
+        {% endfor %}
       </div>
       <div id="find" class="content" style="display: none">
         <h2>Find Influencers</h2>
@@ -367,7 +370,7 @@
             {% endif %}</div>
           <button
             class="view-btn"
-            onclick="openModal('Description : {{campaign.description }}     |     Created on: {{ campaign.created_on }}     |     Start date : {{campaign.start_date}}     |     End Date : {{campaign.end_date }}  |  Budget : {{campaign.budget }}K ')"
+            onclick="openModal('Description : {{campaign.description }}     |     Created on: {{ campaign.created_on }}     |     Start date : {{campaign.start_date}}     |     End Date : {{campaign.end_date }}  |  Budget : {{campaign.budget }}K | id : {{campaign.id}} ')"
           >
             View Details
           </button>

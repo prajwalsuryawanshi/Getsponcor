@@ -2,10 +2,9 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 from flask_sqlalchemy import SQLAlchemy
 import bcrypt
 from datetime import datetime
-import os
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join('/tmp', 'database.db')}"
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 db = SQLAlchemy(app)
 app.secret_key = 'secret_key'
 
@@ -64,6 +63,8 @@ class Campaigns(db.Model):
     budget = db.Column(db.Integer )
     title = db.Column(db.String(100), nullable=False)
 
+
+
     def __init__(self, start_date, end_date, uname, niche, description, created_on, budget, title):
         self.start_date = start_date
         self.end_date = end_date
@@ -74,15 +75,14 @@ class Campaigns(db.Model):
         self.budget = budget
         self.title = title
 
+
 class Request(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    campaign_id = db.Column(db.Integer, db.ForeignKey('campaigns.id'), nullable=False)
-    influencer_id = db.Column(db.Integer, db.ForeignKey('influencer.id'), nullable=False)
+    campaign_id = db.Column(db.Integer, nullable=False)
+    influencer_id = db.Column(db.Integer, nullable=False)
     status = db.Column(db.String(20), default='pending')
     created_on = db.Column(db.Date, default=datetime.now().date)
 
-    campaign = db.relationship('Campaigns', backref=db.backref('requests', lazy=True))
-    influencer = db.relationship('Influencer', backref=db.backref('requests', lazy=True))
 
     def __init__(self, campaign_id, influencer_id,  status='pending'):
         self.campaign_id = campaign_id
@@ -92,12 +92,6 @@ class Request(db.Model):
 
 with app.app_context():
     db.create_all()
-
-# Create database if it doesn't exist
-if not os.path.exists(os.path.join('/tmp', 'database.db')):
-    with app.app_context():
-        db.create_all()
-
 
 @app.route("/")
 def home():
@@ -167,7 +161,6 @@ def sponcerdashboard():
             created_on = datetime.now().date()
             budget = request.form['budget']
             title = request.form['title']
-
             try:
                 start_date = datetime.strptime(start_date_str, "%Y-%m-%d").date()
                 end_date = datetime.strptime(end_date_str, "%Y-%m-%d").date()
@@ -181,30 +174,46 @@ def sponcerdashboard():
             flash("Campaign created successfully!")
         campaigns = Campaigns.query.filter_by(uname=session['uname']).all()
         influcencers = Influencer.query.all()
-        today = datetime.now().date()
-        return render_template("/sponcor/sponcer-dashboard.html", user=user, campaigns=campaigns , influcencers=influcencers , today=today)
+        today = datetime.now().date()   
+        reqests = Request.query.filter_by(influencer_id=user.id)
+        return render_template("/sponcor/sponcer-dashboard.html", user=user, campaigns=campaigns , influcencers=influcencers , today=today, reqests=reqests)
+    return redirect('/user-login')
+
+
+@app.route("/accept/<int:reqest_id>", methods=['POST'])
+def accept_req(reqest_id):
+    if 'uname' in session and session.get('user_type') == 'sponcer':
+        request = Request.query.filter_by(id=reqest_id).first()
+        if request:
+            request.status = 'approved'
+            db.session.commit()
+        return redirect(url_for('influencerdashboard'))
+    return redirect('/user-login')
+
+@app.route("/reject/<int:reqest_id>", methods=['POST'])
+def reject_req(reqest_id):
+    if 'uname' in session and session.get('user_type') == 'sponcer':
+        request = Request.query.filter_by(id=reqest_id).first()
+        if request:
+            request.status = 'rejected'
+            db.session.commit()
+        return redirect(url_for('influencerdashboard'))
     return redirect('/user-login')
 
 @app.route("/delete_campaign/<int:campaign_id>", methods=['POST'])
 def delete_campaign(campaign_id):
     if 'uname' in session and session.get('user_type') == 'sponcer':
         campaign = Campaigns.query.filter_by(id=campaign_id, uname=session['uname']).first()
+        req = Request.query.filter_by(campaign_id=campaign_id).all()
         if campaign:
-            db.session.delete(campaign)
-            db.session.commit()
-            flash("Campaign deleted successfully!")
-    return redirect(url_for('sponcerdashboard'))
+                db.session.delete(campaign)
+                db.session.commit()
+                for re in req:
+                    db.session.delete(re)
+                    db.session.commit()
+                flash("Campaign deleted successfully!")
+        return redirect(url_for('sponcerdashboard'))
 
-@app.route("/send_request/<int:campaign_id>", methods=['POST'])
-def send_request(campaign_id):
-    if 'uname' in session and session.get('user_type') == 'influencer':
-        influencer = Influencer.query.filter_by(uname=session['uname']).first()
-        new_request = Request(campaign_id=campaign_id, influencer_id=influencer.id,)
-        db.session.add(new_request)
-        db.session.commit()
-        flash("Request sent successfully!")
-        return redirect(url_for('influencerdashboard'))
-    return redirect('/user-login')
 
 ########## influencer
 
@@ -233,8 +242,22 @@ def influencerdashboard():
     if 'uname' in session and session.get('user_type') == 'influencer':
         user = Influencer.query.filter_by(uname=session['uname']).first()
         campaigns = Campaigns.query.all()
-        return render_template("/influencer/influencer-dashboard.html", user=user , campaigns=campaigns)
+        today = datetime.now().date()
+        reqests = Request.query.filter_by(influencer_id=user.id)
+        return render_template("/influencer/influencer-dashboard.html", user=user , campaigns=campaigns, today=today , reqests=reqests)
   
+    return redirect('/user-login')
+
+
+@app.route("/send_request/<int:campaign_id>", methods=['POST'])
+def send_request(campaign_id):
+    if 'uname' in session and session.get('user_type') == 'influencer':
+        influencer = Influencer.query.filter_by(uname=session['uname']).first()
+        new_request = Request(campaign_id=campaign_id, influencer_id=influencer.id)
+        db.session.add(new_request)
+        db.session.commit()
+        flash("Request sent successfully!")
+        return redirect(url_for('influencerdashboard'))
     return redirect('/user-login')
 
 ######## user both sponcer/influencer
