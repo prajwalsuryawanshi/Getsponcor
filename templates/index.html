@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GetSponcered - Home</title>
+    <title>Medicare - Home</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -26,13 +26,13 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="display-4">Welcome to GetSponcered</h1>
-        <p class="lead">Connect with top sponsors and influencers effortlessly.</p>
+        <h1 class="display-4">Welcome to Medicare</h1>
+        <p class="lead">Connect with top sponsors and patients effortlessly.</p>
         <div class="mt-4">
             <a href="{{ url_for('userlogin') }}" class="btn btn-custom btn-lg mr-2">User Login</a>
             <a href="{{ url_for('adminlogin') }}" class="btn btn-custom btn-lg mr-2">Admin Login</a>
-            <a href="{{ url_for('sponcorsignup') }}" class="btn btn-secondary btn-lg">Sponcor Signup</a>
-            <a href="{{ url_for('influencersignup') }}" class="btn btn-secondary btn-lg">Influencer Signup</a>
+            <a href="{{ url_for('doctorsignup') }}" class="btn btn-secondary btn-lg">doctor Signup</a>
+            <a href="{{ url_for('patientsignup') }}" class="btn btn-secondary btn-lg">patient Signup</a>
         </div>
     </div>
 </body>

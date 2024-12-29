@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Signup - GetSponcered</title>
+    <title>Signup - Medicare</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -36,8 +36,8 @@
 </head>
 <body>
     <div class="signup-container">
-        <h2 class="text-center">Signup for GetSponcered</h2>
-        <form action="/influencer-signup" method="POST">
+        <h2 class="text-center">Signup for Medicare</h2>
+        <form action="/patient-signup" method="POST">
             <div class="form-group">
                 <label for="username">Username</label>
                 <input type="text" class="form-control" id="username" placeholder="Enter username" name="uname" required>
@@ -48,7 +48,7 @@
                 <input type="password" class="form-control" id="password" placeholder="Password" name="passwd" required>
             </div>
             <div class="form-group">
-                <label for="platform">Platform Presence</label>
+                <label for="platform">Came From</label>
                 <select class="form-control" id="platform" name="platform" required>
                     <option value="youtube">Youtube</option>
                     <option value="twitter">Twitter</option>
@@ -56,22 +56,22 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="Reach">Reach (in thousands)</label>
+                <label for="Reach">Budget</label>
                 <input type="number" class="form-control" id="number" placeholder="Reach" name="reach" required>
             </div>
             <div class="form-group">
-                <label for="Niche">Niche</label>
-                <select class="form-control" id="Niche" name="niche" required> 
-                    <option value="Fashion">Fashion Influencer</option>
-                    <option value="Beauty">Beauty Influencer</option>
-                    <option value="Fitness">Fitness Influencer</option>
-                    <option value="Food">Food Influencer</option>
-                    <option value="Travel">Travel Influencer</option>
-                    <option value="Tech">Tech Influencer</option>
-                    <option value="Lifestyle">Lifestyle Influencer</option>
-                    <option value="Finance">Finance Influencer</option>
-                    <option value="Education">Education Influencer</option>
-                    <option value="Pet">Pet Influencer</option>
+                <label for="Industry">Specialist needed</label>
+                <select class="form-control" id="niche" name="niche" required>
+                    <option value="Cardiologist">Cardiologist</option>
+                    <option value="Dermatologist">Dermatologist</option>
+                    <option value="General Surgeon">General Surgeon</option>
+                    <option value="Gynecologist">Gynecologist</option>
+                    <option value="Neurologist">Neurologist</option>
+                    <option value="Orthopedic Surgeon">Orthopedic Surgeon</option>
+                    <option value="Pediatrician">Pediatrician</option>
+                    <option value="Plastic Surgeon">Plastic Surgeon</option>
+                    <option value="Radiologist">Radiologist</option>
+                    <option value="Emergency Medicine Specialist">Emergency Medicine Specialist</option>
                 </select>
             </div>
             <button type="submit" class="btn btn-custom btn-block">Signup</button>
